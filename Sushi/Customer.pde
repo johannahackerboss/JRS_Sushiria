@@ -12,9 +12,8 @@ class Customer{
   public String getName(){
     return name;
   }
-  s
-    
+  public void makeCustomer(int x, int y)){
+     triangle(
   }
-  
 
 }
