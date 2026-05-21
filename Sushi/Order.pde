@@ -21,10 +21,9 @@ void draw() {
   rect(360, 100, 360, 300);
   fill(217,25,35);
   rect(360,100, 360, 50);
-  
 }
 
-String[] fishList = {"Tuna", "Salmon"};
+String[] fishList = {"Tuna", "Salmon", "Crab"};
 String[] veggieList = {"Avocado", "Cucumber"};
 int Fish, Veggie;
 int rollsAmt, fishAmt, veggieAmt;
@@ -39,6 +38,6 @@ void generateVeggie() {
 
 void generateAmt() {
   rollsAmt = int(random(1, 4));
-  fishAmt  = int(random(1, 4));
+  fishAmt  = int(random(1, 5));
   veggieAmt = int(random(1, 4));
 }
