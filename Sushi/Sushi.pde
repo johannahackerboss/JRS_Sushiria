@@ -2,24 +2,24 @@
 void setup() {
   size(1080, 720);
   background(2,201,224);
-  fill(0, 140, 40);
-  int startX = 200;
-  int startY = 300;
-  arc(startX + 50, startY + 100, 120, 200, PI/2, (3* PI)/2);
-  fill(141, 237, 168);
-  arc(startX + 50, startY + 96, 100, 180, PI/2, (3* PI)/2);
+  seaweed();
+  rice();
+  salmon();
 }
 
 void seaweed(){
-  
+  int startX = 200;
+  int startY = 300;
   fill(0,128,36);
-  rect(200,300,600,200);
+  rect(startX,startY,600,200);
   
 }
 
 void rice(){
+  int startX = 200;
+  int startY = 300;
   fill(255);
-  ellipse(200, 300, 50, 25);
+  ellipse(startX, startY, 50, 25);
 
 
 }
@@ -74,5 +74,19 @@ void carrot(){
 }
 
 void cucumber(){
-  
+  fill(0, 140, 40);
+  int startX = 200;
+  int startY = 300;
+  rect(startX,startY,20,200);
+  fill(141, 237, 168);
+  triangle(startX + 20, startY, startX + 60, startY + 40, startX + 20, startY + 40);
+  rect(startX + 20, startY + 40, 40, 160);
+  fill(255);
+  ellipse(startX + 35, startY + 50, 15, 10);
+  ellipse(startX + 35, startY + 70, 15, 10);
+  ellipse(startX + 35, startY + 90, 15, 10);
+  ellipse(startX + 35, startY + 110, 15, 10);
+  ellipse(startX + 35, startY + 130, 15, 10);
+  ellipse(startX + 35, startY + 150, 15, 10);
+  ellipse(startX + 35, startY + 170, 15, 10);
 }
