@@ -1,13 +1,14 @@
 class Customer{
 
   private String name;
-  private String[] names = {"Rona", "Eli", "Wyatt", "Kevin", "Stella", "Rose", "Johanna"};
+  private String[] names = {"Rona", "Eli", "Wyatt", "Kevin", "Stella", "Rose", "Johanna", "boss Novillo"};
   private int index;
   private color[] shirts = {color(0, 153, 76), color(0, 153, 76), color(204, 0, 0), color(204, 102, 0), color(255, 255, 153), color(255, 0, 127), color(178, 102, 255)};
   private PImage[] faces;
+  private boolean boss = false;
   
   public Customer (){
-    faces = new PImage[7];
+    faces = new PImage[8];
     faces[0] = loadImage("images/rona.png");
     faces[1] = loadImage("images/eli.png");
     faces[2] = loadImage("images/wyatt.png");
@@ -15,7 +16,12 @@ class Customer{
     faces[4] = loadImage("images/stella.png");
     faces[5] = loadImage("images/rose.png");
     faces[6] = loadImage("images/johanna.png");
-    index = (int)(Math.random() * 7);
+    faces[7] = loadImage("images/novillo.png");
+    if (boss){
+      index = 7
+    } else{
+       index = (int)(Math.random() * 7);
+    }
     name = names[index];
   }
   
