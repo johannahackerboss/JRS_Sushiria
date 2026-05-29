@@ -10,6 +10,12 @@ PImage carrot;
 String currentIngredient = "";
 int fishScore = 0; // int out of 100
 int veggieScore = 0; // int out of 100
+String gameState = "building";
+int ingredientCount = 0;
+int previousX;
+
+String chosenFish = "";
+String chosenVeggie = "";
 
 int[] xPositions = new int[100];
 int[] yPositions = new int[100];
@@ -78,6 +84,9 @@ void draw(){
   carrot = loadImage("carrot.png");
   image(carrot, 750, 150, 80, 80);
   //seaweed();
+  if (gameState.equals("rolled")){
+    drawSushiRolls();
+  }
   for (int i = 0; i < riceCount; i++){
     rice(riceX[i], riceY[i]);
   }
@@ -131,6 +140,7 @@ void mousePressed(){
   // CRAB BOWL
   else if (450 <= mouseX && mouseX < 535 && mouseY >= 140 && mouseY <= 230){
     currentIngredient = "crab";
+    
   }
 
   // AVOCADO BOWL
@@ -172,6 +182,16 @@ void mouseDragged(){
       riceCount++;
     }
   }
+  if (gameState.equals("ready")){
+
+  // detect horizontal swipe
+    if (abs(mouseX - previousX) > 80){
+
+      gameState = "rolled";
+    }
+  }
+
+  previousX = mouseX;
 }
 void seaweed(){
   stroke(0);
@@ -267,4 +287,53 @@ void cucumber(){
   ellipse(startX + 35, startY + 130, 15, 10);
   ellipse(startX + 35, startY + 150, 15, 10);
   ellipse(startX + 35, startY + 170, 15, 10);
+}
+
+void drawSushiRolls(){
+
+  background(2,201,224);
+
+  for (int i = 0; i < 5; i++){
+
+    int x = 200 + i * 130;
+    int y = 350;
+
+    // seaweed outside
+    fill(0,128,36);
+    circle(x, y, 100);
+
+    // rice
+    fill(255);
+    circle(x, y, 80);
+
+    // fish center
+    if (chosenFish.equals("salmon")){
+      fill(255,128,120);
+    }
+
+    else if (chosenFish.equals("tuna")){
+      fill(214,34,64);
+    }
+
+    else if (chosenFish.equals("crab")){
+      fill(250,77,22);
+    }
+
+    ellipse(x - 10, y, 30, 50);
+
+    // veggie center
+    if (chosenVeggie.equals("avocado")){
+      fill(141,237,168);
+    }
+
+    else if (chosenVeggie.equals("cucumber")){
+      fill(0,140,40);
+    }
+
+    else if (chosenVeggie.equals("carrot")){
+      fill(237,154,95);
+    }
+
+    ellipse(x + 15, y, 25, 40);
+  }
 }
