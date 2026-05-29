@@ -3,9 +3,9 @@ class Customer{
   private String name;
   private String[] names = {"Rona", "Eli", "Wyatt", "Kevin", "Stella", "Rose", "Johanna", "boss Novillo"};
   private int index;
-  private color[] shirts = {color(0, 153, 76), color(0, 153, 76), color(204, 0, 0), color(204, 102, 0), color(255, 255, 153), color(255, 0, 127), color(178, 102, 255)};
+  private color[] shirts = {color(0, 153, 76), color(0, 153, 76), color(204, 0, 0), color(204, 102, 0), color(255, 255, 153), color(255, 0, 127), color(178, 102, 255), color(102, 178, 255)};
   private PImage[] faces;
-  private boolean boss = false;
+  private boolean boss = true;
   
   public Customer (){
     faces = new PImage[8];
@@ -18,8 +18,9 @@ class Customer{
     faces[6] = loadImage("images/johanna.png");
     faces[7] = loadImage("images/novillo.png");
     if (boss){
-      index = 7
-    } else{
+      index = 7;
+    }
+    else{
        index = (int)(Math.random() * 7);
     }
     name = names[index];
@@ -29,9 +30,9 @@ class Customer{
     return name;
   }
   public void makeCustomer(float x, float y){
-     fill(shirts[index]);
+     fill(shirts[6]);
      rect(x - 50, y - 60, 100, 120, 20);
-     PImage face = faces[index].copy();
+     PImage face = faces[6].copy();
      face.resize(75, 75);
      PImage mask = createImage(75, 75, RGB);
      mask.loadPixels();
