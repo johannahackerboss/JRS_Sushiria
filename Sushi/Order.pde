@@ -1,4 +1,6 @@
 PFont font;
+import processing.sound.*;
+SoundFile music;
 
 void setup() {
   size(1080, 720);
