@@ -11,7 +11,10 @@ String currentIngredient = "";
 int fishScore = 0; // int out of 100
 int veggieScore = 0; // int out of 100
 String gameState = "building";
-int ingredientCount = 0;
+
+
+int fishCount = 0;
+int veggieCount = 0;
 int previousX;
 
 String chosenFish = "";
@@ -27,13 +30,22 @@ int[] riceY = new int[5000];
 
 int riceCount = 0;
 
+boolean startedSwipe = false;
+int swipeStartX;
+
 void setup() {
   size(1080, 720);
   background(2,201,224);
   
 
   
-  
+  rice = loadImage("rice.png");
+  salmon = loadImage("salmon.png");
+  tuna = loadImage("tuna.png");
+  crab = loadImage("crab.png");
+  avocado = loadImage("avocado.png");
+  cucumber = loadImage("cucumber.png");
+  carrot = loadImage("carrot.png");
   //rice();
   //salmon();
   //tuna();
@@ -45,89 +57,99 @@ void setup() {
 
 void draw(){
   background(2,201,224);
-
-  seaweed();
-    // rice bowl
-  
-  fill(255);
-  circle(190, 184, 100);
-  rice = loadImage("rice.png");
-  image(rice, 142, 133, 100, 100);
-  // salmon bowl
-  fill(255, 128, 120);
-  rect(250, 140, 90, 90);
-  salmon = loadImage("salmon.png");
-  image(salmon, 250, 133, 100, 100);
-  // tuna bowl
-  fill(214, 34, 64);
-  rect(350, 140, 90, 90);
-  tuna = loadImage("tuna.png");
-  image(tuna, 350, 133, 100, 100);
-  // crab bowl 
-  fill(250, 77, 22);
-  rect(450, 140, 90, 90);
-  crab = loadImage("crab.png");
-  image(crab, 450, 133, 100, 100);
-  // avocado bowl
-  fill(141, 237, 168);
-  rect(550, 140, 90, 90);
-  avocado = loadImage("avocado.png");
-  image(avocado, 550, 133, 100, 100);
-  // cucumber bowl 
-  fill(0, 140, 40);
-  rect(650, 140, 90, 90);
-  cucumber = loadImage("cucumber.png");
-  image(cucumber, 650, 133, 100, 100);
-  // carrot bowl
-  fill(237, 154, 95);
-  rect(750, 140, 90, 90);
-  carrot = loadImage("carrot.png");
-  image(carrot, 750, 150, 80, 80);
-  //seaweed();
   if (gameState.equals("rolled")){
     drawSushiRolls();
   }
-  for (int i = 0; i < riceCount; i++){
-    rice(riceX[i], riceY[i]);
-  }
-  // now redraws every drawn ingredient 
-  for (int i = 0; i < count; i++){
-
-    startX = xPositions[i];
-    startY = yPositions[i];
-
-    if (ingredients[i].equals("salmon")){
-      salmon();
+  else {
+    seaweed(); 
+ 
+    // rice bowl
+    fill(255);
+    circle(190, 184, 100);
+    rice = loadImage("rice.png");
+    image(rice, 142, 133, 100, 100);
+    // salmon bowl
+    fill(255, 128, 120);
+    rect(250, 140, 90, 90);
+    salmon = loadImage("salmon.png");
+    image(salmon, 250, 133, 100, 100);
+    // tuna bowl
+    fill(214, 34, 64);
+    rect(350, 140, 90, 90);
+    tuna = loadImage("tuna.png");
+    image(tuna, 350, 133, 100, 100);
+    // crab bowl 
+    fill(250, 77, 22);
+    rect(450, 140, 90, 90);
+    crab = loadImage("crab.png");
+    image(crab, 450, 133, 100, 100);
+    // avocado bowl
+    fill(141, 237, 168);
+    rect(550, 140, 90, 90);
+    avocado = loadImage("avocado.png");
+    image(avocado, 550, 133, 100, 100);
+    // cucumber bowl 
+    fill(0, 140, 40);
+    rect(650, 140, 90, 90);
+    cucumber = loadImage("cucumber.png");
+    image(cucumber, 650, 133, 100, 100);
+    // carrot bowl
+    fill(237, 154, 95);
+    rect(750, 140, 90, 90);
+    carrot = loadImage("carrot.png");
+    image(carrot, 750, 150, 80, 80);
+    //seaweed();
+    for (int i = 0; i < riceCount; i++){
+      rice(riceX[i], riceY[i]);
     }
+    // now redraws every drawn ingredient 
+    for (int i = 0; i < count; i++){
 
-    else if (ingredients[i].equals("tuna")){
-      tuna();
+      startX = xPositions[i];
+      startY = yPositions[i];
+
+      if (ingredients[i].equals("salmon")){
+        salmon();
+      }
+
+      else if (ingredients[i].equals("tuna")){
+        tuna();
+      }
+
+      else if (ingredients[i].equals("crab")){
+        crab();
+      }
+
+      else if (ingredients[i].equals("avocado")){
+        avocado();
+      }
+
+      else if (ingredients[i].equals("cucumber")){
+        cucumber();
+      }
+
+      else if (ingredients[i].equals("carrot")){
+        carrot();
+      }
     }
+    if (gameState.equals("ready")){
 
-    else if (ingredients[i].equals("crab")){
-      crab();
-    }
+      fill(255);
+      textSize(40);
+      textAlign(CENTER);
 
-    else if (ingredients[i].equals("avocado")){
-      avocado();
-    }
-
-    else if (ingredients[i].equals("cucumber")){
-      cucumber();
-    }
-
-    else if (ingredients[i].equals("carrot")){
-      carrot();
+      text("SWIPE TO ROLL", width/2, 650);
     }
   }
 }
 
 void mousePressed(){
 
-  // SALMON BOWL
+  //RICE BOWL
   if (150 <= mouseX && mouseX < 240 && mouseY >= 140 && mouseY <= 230){
     currentIngredient = "rice";
   }
+  // SALMON BOWL
   else if (250 <= mouseX && mouseX < 335 && mouseY >= 140 && mouseY <= 230){
     currentIngredient = "salmon";
   }
@@ -157,7 +179,7 @@ void mousePressed(){
   else if (750 <= mouseX && mouseX < 835 && mouseY >= 140 && mouseY <= 230){
     currentIngredient = "carrot";
   }
-
+ 
   // OTHERWISE PLACE THE FOOD
   else {
 
@@ -166,33 +188,74 @@ void mousePressed(){
     ingredients[count] = currentIngredient;
 
     count++;
+
+ 
+    // chosen fish
+    if (currentIngredient.equals("salmon") ||
+        currentIngredient.equals("tuna") ||
+        currentIngredient.equals("crab")){
+
+      chosenFish = currentIngredient;
+      fishCount++;
+    }
+
+    // chosen veggie
+    if (currentIngredient.equals("avocado") ||
+        currentIngredient.equals("cucumber") ||
+        currentIngredient.equals("carrot")){
+
+      chosenVeggie = currentIngredient;
+      veggieCount++;
+    }
+    if (fishCount >= 5 && veggieCount >= 8){
+      gameState = "ready";
+    }
+
+   
+
   }
 }
 void mouseDragged(){
 
+  // RICE PAINTING
   if (currentIngredient.equals("rice")){
 
-    // only place rice on seaweed
     if (mouseX > 220 && mouseX < 780 &&
         mouseY > 320 && mouseY < 480){
 
-      riceX[riceCount] = mouseX + int(random(-8,8));
-      riceY[riceCount] = mouseY + int(random(-8,8));
+      for (int i = 0; i < 8; i++){
 
-      riceCount++;
+        riceX[riceCount] = mouseX + int(random(-8,8));
+        riceY[riceCount] = mouseY + int(random(-8,8));
+
+        riceCount++;
+      }
     }
   }
+
+  // SWIPE TO ROLL
   if (gameState.equals("ready")){
 
-  // detect horizontal swipe
-    if (abs(mouseX - previousX) > 80){
+    // swipe begins on left side
+    if (!startedSwipe && mouseX < 300){
+
+      startedSwipe = true;
+      swipeStartX = mouseX;
+    }
+
+    // completed swipe
+    if (startedSwipe && mouseX > 700){
 
       gameState = "rolled";
     }
   }
-
-  previousX = mouseX;
 }
+
+void mouseReleased(){
+
+  startedSwipe = false;
+}
+
 void seaweed(){
   stroke(0);
   strokeWeight(1);
@@ -288,52 +351,65 @@ void cucumber(){
   ellipse(startX + 35, startY + 150, 15, 10);
   ellipse(startX + 35, startY + 170, 15, 10);
 }
-
 void drawSushiRolls(){
 
   background(2,201,224);
 
-  for (int i = 0; i < 5; i++){
+  int x = 200;
+  int y = 360;
 
-    int x = 200 + i * 130;
-    int y = 350;
+  int rollLength = 500;
 
-    // seaweed outside
-    fill(0,128,36);
-    circle(x, y, 100);
+  // MAIN SEAWEED BODY
+  fill(0,128,36);
+  rect(x, y - 50, rollLength, 100, 50);
 
-    // rice
-    fill(255);
-    circle(x, y, 80);
+  // LEFT END
+  drawRollEnd(x + 20, y);
 
-    // fish center
-    if (chosenFish.equals("salmon")){
-      fill(255,128,120);
-    }
+  text("ROLL COMPLETE", width/2, 220);
+}
 
-    else if (chosenFish.equals("tuna")){
-      fill(214,34,64);
-    }
+void drawRollEnd(int x , int y){
 
-    else if (chosenFish.equals("crab")){
-      fill(250,77,22);
-    }
+  stroke(0);
+  strokeWeight(1);
 
-    ellipse(x - 10, y, 30, 50);
+  // seaweed outside
+  fill(0,128,36);
+  circle(x, y, 100);
 
-    // veggie center
-    if (chosenVeggie.equals("avocado")){
-      fill(141,237,168);
-    }
+  // rice
+  fill(255);
+  circle(x, y, 80);
 
-    else if (chosenVeggie.equals("cucumber")){
-      fill(0,140,40);
-    }
-
-    else if (chosenVeggie.equals("carrot")){
-      fill(237,154,95);
-    }
-
-    ellipse(x + 15, y, 25, 40);
+  // fish filling
+  if (chosenFish.equals("salmon")){
+    fill(255,128,120);
   }
+
+  else if (chosenFish.equals("tuna")){
+    fill(214,34,64);
+  }
+
+  else if (chosenFish.equals("crab")){
+    fill(250,77,22);
+  }
+
+  ellipse(x - 10, y, 30, 50);
+
+  // veggie filling
+  if (chosenVeggie.equals("avocado")){
+    fill(141,237,168);
+  }
+
+  else if (chosenVeggie.equals("cucumber")){
+    fill(0,140,40);
+  }
+
+  else if (chosenVeggie.equals("carrot")){
+    fill(237,154,95);
+  }
+
+  ellipse(x + 15, y, 25, 40);
 }
