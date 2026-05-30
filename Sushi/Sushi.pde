@@ -1,5 +1,6 @@
 int startX;
 int startY;
+
 PImage rice;
 PImage salmon;
 PImage tuna;
@@ -7,9 +8,16 @@ PImage crab;
 PImage avocado;
 PImage cucumber;
 PImage carrot;
+PImage knife;
+
 String currentIngredient = "";
+
 int fishScore = 0; // int out of 100
 int veggieScore = 0; // int out of 100
+int riceScore = 0;
+int cutScore = 0;
+int totalScore = 0;
+
 String gameState = "building";
 
 
@@ -33,7 +41,11 @@ int riceCount = 0;
 boolean startedSwipe = false;
 int swipeStartX;
 
+int[] cutX = new int[10];
+int cutCount = 0;
+
 void setup() {
+  //noCursor();
   size(1080, 720);
   background(2,201,224);
   
@@ -46,6 +58,7 @@ void setup() {
   avocado = loadImage("avocado.png");
   cucumber = loadImage("cucumber.png");
   carrot = loadImage("carrot.png");
+  knife = loadImage("knife.png");
   //rice();
   //salmon();
   //tuna();
@@ -57,8 +70,15 @@ void setup() {
 
 void draw(){
   background(2,201,224);
-  if (gameState.equals("rolled")){
+  if (gameState.equals("cutting")){
     drawSushiRolls();
+    drawCuts();
+    noCursor();
+    image(knife, mouseX, mouseY, 80, 80);
+  }
+
+  else if (gameState.equals("rolled")){
+    drawFinishedPieces();
   }
   else {
     seaweed(); 
@@ -144,9 +164,27 @@ void draw(){
 }
 
 void mousePressed(){
+  if (gameState.equals("rolled")){
+    return;
+  }
+  else if (gameState.equals("cutting")){
+
+  // only allow cuts on the roll
+    if (mouseX >= 200 && mouseX <= 700){
+
+      cutX[cutCount] = mouseX;
+      cutCount++;
+
+      if (cutCount >= 5){
+        gameState = "rolled";
+      }
+    }
+
+    return;
+  }
 
   //RICE BOWL
-  if (150 <= mouseX && mouseX < 240 && mouseY >= 140 && mouseY <= 230){
+  else if (150 <= mouseX && mouseX < 240 && mouseY >= 140 && mouseY <= 230){
     currentIngredient = "rice";
   }
   // SALMON BOWL
@@ -246,7 +284,7 @@ void mouseDragged(){
     // completed swipe
     if (startedSwipe && mouseX > 700){
 
-      gameState = "rolled";
+      gameState = "cutting";
     }
   }
 }
@@ -267,7 +305,7 @@ void seaweed(){
 }
 
 void rice(int x, int y){
-  stroke(0);
+  stroke(173, 170, 170);
   strokeWeight(1);
   fill(255);
   ellipse(x, y, 50, 25);
@@ -367,7 +405,14 @@ void drawSushiRolls(){
   // LEFT END
   drawRollEnd(x + 20, y);
 
-  text("ROLL COMPLETE", width/2, 220);
+  fill(255);
+  textAlign(CENTER);
+  textSize(36);
+
+  text("MAKE 6 SLICES", width/2, 220);
+
+  textSize(24);
+  text(cutCount + 1 + " / 6", width/2, 260);
 }
 
 void drawRollEnd(int x , int y){
@@ -412,4 +457,231 @@ void drawRollEnd(int x , int y){
   }
 
   ellipse(x + 15, y, 25, 40);
+}
+
+void drawCuts(){
+
+  stroke(255);
+  strokeWeight(4);
+
+  for(int i = 0; i < cutCount; i++){
+
+    line(
+      cutX[i],
+      290,
+      cutX[i],
+      430
+    );
+  }
+}
+
+void drawFinishedPieces(){
+
+  background(2,201,224);
+
+  for (int i = 0; i < 5; i++){
+
+    int x = 200 + i * 130;
+    int y = 350;
+
+    // seaweed outside
+    fill(0,128,36);
+    circle(x, y, 100);
+
+    // rice
+    fill(255);
+    circle(x, y, 80);
+
+    // fish center
+    if (chosenFish.equals("salmon")){
+      fill(255,128,120);
+    }
+
+    else if (chosenFish.equals("tuna")){
+      fill(214,34,64);
+    }
+
+    else if (chosenFish.equals("crab")){
+      fill(250,77,22);
+    }
+
+    ellipse(x - 10, y, 30, 50);
+
+    // veggie center
+    if (chosenVeggie.equals("avocado")){
+      fill(141,237,168);
+    }
+
+    else if (chosenVeggie.equals("cucumber")){
+      fill(0,140,40);
+    }
+
+    else if (chosenVeggie.equals("carrot")){
+      fill(237,154,95);
+    }
+
+    ellipse(x + 15, y, 25, 40);
+  }
+}
+
+void calculateScores(){
+
+  calculateFishScore();
+  calculateVeggieScore();
+  calculateRiceScore();
+  calculateCutScore();
+
+  totalScore =
+    (fishScore +
+     veggieScore +
+     riceScore +
+     cutScore) / 4;
+}
+
+void calculateFishScore(){
+
+  int[] idealFishX = {
+    250,
+    375,
+    500,
+    625,
+    750
+  };
+
+  float totalError = 0;
+  int fishIndex = 0;
+
+  for(int i = 0; i < count; i++){
+
+    if(
+      ingredients[i].equals("salmon") ||
+      ingredients[i].equals("tuna") ||
+      ingredients[i].equals("crab")
+    ){
+
+      if(fishIndex < 5){
+
+        totalError += abs(
+          xPositions[i] - idealFishX[fishIndex]
+        );
+
+        fishIndex++;
+      }
+    }
+  }
+
+  float avgError = totalError / 5.0;
+
+  fishScore =
+    int(max(
+      0,
+      100 - (avgError / 100.0) * 100
+    ));
+}
+
+void calculateVeggieScore(){
+
+  int[] idealVeggieX = {
+    225,
+    300,
+    375,
+    450,
+    525,
+    600,
+    675,
+    750
+  };
+
+  float totalError = 0;
+  int veggieIndex = 0;
+
+  for(int i = 0; i < count; i++){
+
+    if(
+      ingredients[i].equals("avocado") ||
+      ingredients[i].equals("cucumber") ||
+      ingredients[i].equals("carrot")
+    ){
+
+      if(veggieIndex < 8){
+
+        totalError += abs(
+          xPositions[i] - idealVeggieX[veggieIndex]
+        );
+
+        veggieIndex++;
+      }
+    }
+  }
+
+  float avgError = totalError / 8.0;
+
+  veggieScore =
+    int(max(
+      0,
+      100 - (avgError / 100.0) * 100
+    ));
+}
+
+void calculateRiceScore(){
+
+  riceScore =
+    int(min(
+      100,
+      (riceCount * 100.0) / 2500
+    ));
+}
+
+void calculateCutScore(){
+
+  if(cutCount != 5){
+
+    cutScore = 0;
+    return;
+  }
+
+  int[] idealCuts = {
+    300,
+    400,
+    500,
+    600,
+    700
+  };
+
+  float totalError = 0;
+
+  for(int i = 0; i < 5; i++){
+
+    totalError += abs(
+      cutX[i] - idealCuts[i]
+    );
+  }
+
+  float avgError = totalError / 5.0;
+
+  cutScore =
+    int(max(
+      0,
+      100 - avgError
+    ));
+}
+
+int getFishScore(){
+  return fishScore;
+}
+
+int getVeggieScore(){
+  return veggieScore;
+}
+
+int getRiceScore(){
+  return riceScore;
+}
+
+int getCutScore(){
+  return cutScore;
+}
+
+int getTotalScore(){
+  return totalScore;
 }
