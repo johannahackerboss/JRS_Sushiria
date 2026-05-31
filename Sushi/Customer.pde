@@ -5,7 +5,7 @@ class Customer{
   private int index;
   private color[] shirts = {color(0, 153, 76), color(204, 0, 0), color(204, 102, 0), color(255, 255, 153), color(255, 0, 127), color(178, 102, 255), color(102, 178, 255)};
   private PImage[] faces;
-  private boolean boss = true;
+  private boolean boss = false;
   
   public Customer (){
     faces = new PImage[8];
@@ -29,9 +29,9 @@ class Customer{
     return name;
   }
   public void makeCustomer(float x, float y){
-     fill(shirts[6]);
+     fill(shirts[index]);
      rect(x - 50, y - 60, 100, 120, 20);
-     PImage face = faces[6].copy();
+     PImage face = faces[index].copy();
      face.resize(75, 75);
      PImage mask = createImage(75, 75, RGB);
      mask.loadPixels();

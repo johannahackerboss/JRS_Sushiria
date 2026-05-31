@@ -2,8 +2,7 @@ PFont font;
 import processing.sound.*;
 SoundFile music;
 
-void setup() {
-  size(1080, 720);
+void setupOrder() {
 
   Order();
   Orderstuff();
@@ -54,7 +53,7 @@ void Orderstuff() {
 String[] fishList = {"Tuna", "Salmon", "Crab"};
 String[] veggieList = {"Avocado", "Cucumber"};
 int Fish, Veggie;
-int rollsAmt, fishAmt, veggieAmt;
+int fishAmt, veggieAmt;
 void generateFish() {
   Fish = int(random(fishList.length));
 }
@@ -62,7 +61,6 @@ void generateVeggie() {
   Veggie = int(random(veggieList.length));
 }
 void generateAmt() {
-  rollsAmt = int(random(1, 4));
   fishAmt  = int(random(1, 5));
   veggieAmt = int(random(1, 4));
 }

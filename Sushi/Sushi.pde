@@ -1,3 +1,4 @@
+
 int startX;
 int startY;
 PImage rice;
@@ -22,12 +23,16 @@ int[] riceY = new int[5000];
 int riceCount = 0;
 
 void setup() {
+
   size(1080, 720);
   background(2,201,224);
-  
-
-  
-  
+  rice = loadImage("rice.png");
+  salmon = loadImage("salmon.png");  
+  tuna = loadImage("tuna.png");
+  crab = loadImage("crab.png");
+  avocado = loadImage("avocado.png");
+  cucumber = loadImage("cucumber.png");
+  carrot = loadImage("carrot.png");
   //rice();
   //salmon();
   //tuna();
@@ -45,37 +50,30 @@ void draw(){
   
   fill(255);
   circle(190, 184, 100);
-  rice = loadImage("rice.png");
   image(rice, 142, 133, 100, 100);
   // salmon bowl
   fill(255, 128, 120);
   rect(250, 140, 90, 90);
-  salmon = loadImage("salmon.png");
   image(salmon, 250, 133, 100, 100);
   // tuna bowl
   fill(214, 34, 64);
   rect(350, 140, 90, 90);
-  tuna = loadImage("tuna.png");
   image(tuna, 350, 133, 100, 100);
   // crab bowl 
   fill(250, 77, 22);
   rect(450, 140, 90, 90);
-  crab = loadImage("crab.png");
   image(crab, 450, 133, 100, 100);
   // avocado bowl
   fill(141, 237, 168);
   rect(550, 140, 90, 90);
-  avocado = loadImage("avocado.png");
   image(avocado, 550, 133, 100, 100);
   // cucumber bowl 
   fill(0, 140, 40);
   rect(650, 140, 90, 90);
-  cucumber = loadImage("cucumber.png");
   image(cucumber, 650, 133, 100, 100);
   // carrot bowl
   fill(237, 154, 95);
   rect(750, 140, 90, 90);
-  carrot = loadImage("carrot.png");
   image(carrot, 750, 150, 80, 80);
   //seaweed();
   for (int i = 0; i < riceCount; i++){
@@ -268,4 +266,3 @@ void cucumber(){
   ellipse(startX + 35, startY + 150, 15, 10);
   ellipse(startX + 35, startY + 170, 15, 10);
 }
->>>>>>> origin/Sushi
