@@ -1,27 +1,26 @@
 class Customer{
 
   private String name;
-  private String[] names = {"Rona", "Eli", "Wyatt", "Kevin", "Stella", "Rose", "Johanna", "boss Novillo"};
+  private String[] names = {"Eli", "Wyatt", "Kevin", "Stella", "Rose", "Johanna", "boss Novillo"};
   private int index;
-  private color[] shirts = {color(0, 153, 76), color(0, 153, 76), color(204, 0, 0), color(204, 102, 0), color(255, 255, 153), color(255, 0, 127), color(178, 102, 255), color(102, 178, 255)};
+  private color[] shirts = {color(0, 153, 76), color(204, 0, 0), color(204, 102, 0), color(255, 255, 153), color(255, 0, 127), color(178, 102, 255), color(102, 178, 255)};
   private PImage[] faces;
   private boolean boss = true;
   
   public Customer (){
     faces = new PImage[8];
-    faces[0] = loadImage("images/rona.png");
-    faces[1] = loadImage("images/eli.png");
-    faces[2] = loadImage("images/wyatt.png");
-    faces[3] = loadImage("images/kevin.png");
-    faces[4] = loadImage("images/stella.png");
-    faces[5] = loadImage("images/rose.png");
-    faces[6] = loadImage("images/johanna.png");
-    faces[7] = loadImage("images/novillo.png");
+    faces[0] = loadImage("images/eli.png");
+    faces[1] = loadImage("images/wyatt.png");
+    faces[2] = loadImage("images/kevin.png");
+    faces[3] = loadImage("images/stella.png");
+    faces[4] = loadImage("images/rose.png");
+    faces[5] = loadImage("images/johanna.png");
+    faces[6] = loadImage("images/novillo.png");
     if (boss){
-      index = 7;
+      index = 6;
     }
     else{
-       index = (int)(Math.random() * 7);
+       index = (int)(Math.random() * 6);
     }
     name = names[index];
   }
@@ -53,7 +52,15 @@ class Customer{
      noFill();
      stroke(0);
      strokeWeight(2);
-     circle(x, y - 95, 75);
+     circle(x, y - 95, 75); 
+     fill(255);
+     stroke(0);
+     rectMode(CENTER);
+     rect(x, y - 25, 90, 25, 5);
+     fill(0);
+     textAlign(CENTER, CENTER);
+     textSize(14);
+     text(name, x, y - 25);
   }
 
 }

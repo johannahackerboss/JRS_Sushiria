@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-
-=======
 int startX;
 int startY;
 PImage rice;
