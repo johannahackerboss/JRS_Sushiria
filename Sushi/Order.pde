@@ -1,7 +1,7 @@
 PFont font;
 
-import processing.sound.*;
-SoundFile music;
+//import processing.sound.*;
+//SoundFile music;
 
 void drawOrderScreen() {
   background(245, 235, 220);

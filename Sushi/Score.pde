@@ -2,9 +2,7 @@ int score;
 int timeScore;
 int placementScore;
 int correctnessScore;
-int fishScore;
-int veggieScore;
-int riceScore;
+
 int swX1 = 200, swX2 = 800;
 int swY1 = 300, swY2 = 500;
 int swWidth = 600;
@@ -62,9 +60,10 @@ void drawScoreScreen() {
 
   drawScoreBox("Correctness", correctnessScore, 490, 95);
   drawScoreBox("Time",        timeScore,        490, 175);
-  drawScoreBox("Fish",        fishScore,        490, 255);
-  drawScoreBox("Veggie",      veggieScore,      490, 335);
-  drawScoreBox("Rice",        riceScore,        490, 415);
+  drawScoreBox("Fish",        getFishScore(),        490, 255);
+  drawScoreBox("Veggie",      getVeggieScore(),      490, 335);
+  drawScoreBox("Rice",        getRiceScore(),        490, 415);
+  drawScoreBox("Cuts",        getCutScore(),         490, 495);
 
   fill(73, 200, 80);
   stroke(30, 140, 50);
@@ -140,104 +139,33 @@ void setCorrectnessScore() {
   correctnessScore = max(0, correctnessScore);
 }
 
-void setFishScore() {
-  fishScore = 0;
-  int sections = 5;
-  int sectionWidth = swWidth / sections;  // 120px each
-  int[] covered = new int[sections];      // best score per section
-
-  for (int i = 0; i < count; i++) {
-    String ing = ingredients[i];
-    boolean isFish = ing.equals("salmon") || ing.equals("tuna") || ing.equals("crab");
-    boolean onSeaweed = (xPositions[i] >= swX1 && xPositions[i] <= swX2 &&
-                         yPositions[i] >= swY1 && yPositions[i] <= swY2);
-
-    if (isFish && onSeaweed) {
-      // score this piece against every section, keep best per section
-      for (int s = 0; s < sections; s++) {
-        int targetX = swX1 + s * sectionWidth;
-        float d = dist(xPositions[i], yPositions[i], targetX, swY1);
-        int sectionScore = max(100 - (int)((d / sectionWidth) * 100), 0);
-        if (sectionScore > covered[s]) covered[s] = sectionScore;
-      }
-    }
-  }
-
-  for (int i = 0; i < sections; i++) fishScore += covered[i];
-  fishScore /= sections;
-}
-
-void setVeggieScore() {
-  veggieScore = 0;
-  int sections = 10;
-  int sectionWidth = swWidth / sections;  // 60px each
-  int[] covered = new int[sections];      // best score per section
-
-  for (int i = 0; i < count; i++) {
-    String ing = ingredients[i];
-    boolean isVeggie = ing.equals("avocado") || ing.equals("cucumber") || ing.equals("carrot");
-    boolean onSeaweed = (xPositions[i] >= swX1 && xPositions[i] <= swX2 &&
-                         yPositions[i] >= swY1 && yPositions[i] <= swY2);
-
-    if (isVeggie && onSeaweed) {
-      // score this piece against every section, keep best per section
-      for (int s = 0; s < sections; s++) {
-        int targetX = swX1 + s * sectionWidth;
-        float d = dist(xPositions[i], yPositions[i], targetX, swY1);
-        int sectionScore = max(100 - (int)((d / sectionWidth) * 100), 0);
-        if (sectionScore > covered[s]) covered[s] = sectionScore;
-      }
-    }
-  }
-
-  for (int i = 0; i < sections; i++) veggieScore += covered[i];
-  veggieScore /= sections;
-}
-
-void setRiceScore() {
-  riceScore = 100;
-  int cols = 10, rows = 5;
-  int cellW = swWidth / cols;
-  int cellH = (swY2 - swY1) / rows;
-  int radius = 35;
-  boolean[] covered = new boolean[cols * rows];
-
-  for (int r = 0; r < rows; r++) {
-    for (int c = 0; c < cols; c++) {
-      int cellCX = swX1 + c * cellW + cellW / 2;
-      int cellCY = swY1 + r * cellH + cellH / 2;
-      for (int i = 0; i < riceCount; i++) {
-        if (dist(riceX[i], riceY[i], cellCX, cellCY) < radius) {
-          covered[r * cols + c] = true;
-          break;
-        }
-      }
-    }
-  }
-
-  for (int i = 0; i < cols * rows; i++) {
-    if (!covered[i]) riceScore -= 2;
-  }
-  riceScore = max(0, riceScore);
-}
-
 void setPlacementScore() {
-  setFishScore();
-  setVeggieScore();
-  setRiceScore();
-  placementScore = (fishScore + veggieScore + riceScore) / 3;
-}
 
+  placementScore =
+    (
+      getFishScore() +
+      getVeggieScore() +
+      getRiceScore() +
+      getCutScore()
+    ) / 4;
+}
 void setScore() {
+
   setCorrectnessScore();
   setPlacementScore();
   setTimeScore();
-  score = (correctnessScore + placementScore + timeScore) / 3;
+
+  score =
+    int(
+      correctnessScore * 0.4 +
+      placementScore * 0.4 +
+      timeScore * 0.2
+    );
+
   if (placementScore == 0){
     correctnessScore = 0;
     timeScore = 0;
     score = 0;
   }
 }
-
 int getScore() { return score; }
