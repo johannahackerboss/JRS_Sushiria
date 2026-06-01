@@ -28,13 +28,13 @@ void setup() {
   font = createFont("PapaYo Regular", 32, true);
   startMillis = millis();
   
-  rice = loadImage("rice.png");
-  salmon = loadImage("salmon.png");
-  tuna = loadImage("tuna.png");
-  crab = loadImage("crab.png");
-  avocado = loadImage("avocado.png");
-  cucumber = loadImage("cucumber.png");
-  carrot = loadImage("carrot.png");
+  rice = loadImage("images/rice.png");
+  salmon = loadImage("images/salmon.png");
+  tuna = loadImage("images/tuna.png");
+  crab = loadImage("images/crab.png");
+  avocado = loadImage("images/avocado.png");
+  cucumber = loadImage("images/cucumber.png");
+  carrot = loadImage("images/carrot.png");
   customer = new Customer();
   generateFish();
   generateVeggie();
