@@ -11,7 +11,7 @@ int swWidth = 600;
 
 void drawScoreScreen() {
   background(2, 201, 224);
-  drawSides();
+   drawSides();
 
   fill(0, 90, 20);
   noStroke();
