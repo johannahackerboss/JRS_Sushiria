@@ -1,30 +1,27 @@
 PFont font;
+
 import processing.sound.*;
 SoundFile music;
 
-void setupOrder() {
-
-  Order();
+void drawOrderScreen() {
+  background(245, 235, 220);
+  
+  stroke(0);
+  strokeWeight(1);
+  line(240, 0, 240, 720);
+  line(840, 0, 840, 720);
+  line(360, 100, 360, 400);
+  line(720, 100, 720, 400);
+  line(360, 100, 720, 100);
+  line(360, 400, 720, 400);
   Orderstuff();
-  generateFish();
-  generateVeggie();
-  generateAmt();
   drawOrderPaper();
+  customer.makeCustomer(630, 310);
   torii();
   drawSides();
   table();
 }
 
-void Order() {
-  background(245, 235, 220);
-  line(240, 0, 240, 720);
-  line(840, 0, 840, 720);
-  line(360, 100, 360, 400);
-  line(720, 100, 720, 400);
-  line(360, 100, 720,100);
-  line(360, 400, 720,400);
-  font = createFont("PapaYo Regular", 32, true);
-}
 void Orderstuff() {
   stroke(217, 25, 35);
   strokeWeight(4);
@@ -50,20 +47,25 @@ void Orderstuff() {
   fill(217,25,35);
   rect(360,100, 360, 50);
 }
-String[] fishList = {"Tuna", "Salmon", "Crab"};
-String[] veggieList = {"Avocado", "Cucumber"};
+String[] fishList = {"tuna", "salmon", "crab"};
+String[] veggieList = {"avocado", "cucumber", "carrot"};
 int Fish, Veggie;
-int fishAmt, veggieAmt;
+
 void generateFish() {
   Fish = int(random(fishList.length));
 }
 void generateVeggie() {
   Veggie = int(random(veggieList.length));
 }
-void generateAmt() {
-  fishAmt  = int(random(1, 5));
-  veggieAmt = int(random(1, 4));
+
+int getFish(){
+  return Fish;
 }
+
+int getVeggie(){
+  return Veggie;
+}
+
 void drawOrderPaper() {
   fill(253, 252, 248);
   stroke(210, 205, 195);
@@ -90,9 +92,9 @@ void drawOrderPaper() {
   textSize(12);
   text("Rolls: 1", 283, 166);
   text("Fish: " + fishList[Fish], 283, 188);
-  text("   x1" + " pcs", 283, 210);
+  text("   x5" + " pcs", 283, 210);
   text("Veggie: " + veggieList[Veggie], 283, 232);
-  text("   x1" + " pcs", 283, 254);
+  text("   x10" + " pcs", 283, 254);
 }
 
 String getOrder() {

@@ -1,6 +1,7 @@
 
 int startX;
 int startY;
+int startMillis = 0;
 PImage rice;
 PImage salmon;
 PImage tuna;
@@ -9,9 +10,7 @@ PImage avocado;
 PImage cucumber;
 PImage carrot;
 String currentIngredient = "";
-int fishScore = 0; // int out of 100
-int veggieScore = 0; // int out of 100
-
+Customer customer;
 int[] xPositions = new int[100];
 int[] yPositions = new int[100];
 String[] ingredients = new String[100];
@@ -21,28 +20,85 @@ int[] riceX = new int[5000];
 int[] riceY = new int[5000];
 
 int riceCount = 0;
+String currentScreen = "order";
+
 
 void setup() {
-
   size(1080, 720);
-  background(2,201,224);
+  font = createFont("PapaYo Regular", 32, true);
+  startMillis = millis();
+  
   rice = loadImage("rice.png");
-  salmon = loadImage("salmon.png");  
+  salmon = loadImage("salmon.png");
   tuna = loadImage("tuna.png");
   crab = loadImage("crab.png");
   avocado = loadImage("avocado.png");
   cucumber = loadImage("cucumber.png");
   carrot = loadImage("carrot.png");
-  //rice();
-  //salmon();
-  //tuna();
-  //crab();
-  //avocado();
-  //cucumber();
-  //carrot();
+  customer = new Customer();
+  generateFish();
+  generateVeggie();
 }
 
 void draw(){
+  if (!currentScreen.equals("score")){
+  }
+  if (currentScreen.equals("score")){
+    drawScoreScreen();
+  }
+  if (currentScreen.equals("sushi")){
+    drawSushiScreen();
+  } 
+  if (currentScreen.equals("order")){
+    drawOrderScreen();
+  }
+  if (!currentScreen.equals("score")){
+    drawButtons();
+  }
+}
+
+void resetGame() {
+  count = 0;
+  riceCount = 0;
+  currentIngredient = "";
+  startMillis = millis();
+  customer = new Customer();
+  generateFish();
+  generateVeggie();
+  currentScreen = "order";
+}
+
+void drawButtons() {
+  if (currentScreen.equals("sushi")) {
+    fill(255, 200, 0);   // highlighted when active
+  } else {
+    fill(255, 255, 255);
+  }
+  stroke(180, 0, 0);
+  strokeWeight(2);
+  rect(880, 640, 160, 50, 10);
+  fill(0);
+  noStroke();
+  textAlign(CENTER, CENTER);
+  textSize(18);
+  text("Make Sushi", 960, 665);
+
+  if (currentScreen.equals("order")) {
+    fill(255, 200, 0);   // highlighted when active
+  } else {
+    fill(255, 255, 255);
+  }
+  rect(700, 640, 160, 50, 10);
+  fill(0);
+  text("See Order", 780, 665);
+  
+  fill(73, 240, 61);
+  rect(520, 640, 160, 50, 10);
+  fill(0);
+  text("DONE", 600, 665);
+}
+
+void drawSushiScreen(){
   background(2,201,224);
 
   seaweed();
@@ -112,7 +168,31 @@ void draw(){
 }
 
 void mousePressed(){
+  if (mouseX >= 520 && mouseX <= 680 && mouseY >= 640 && mouseY <= 690){
+    setScore();
+    currentScreen = "score";
+    return;
+  }
+  if (currentScreen.equals("score")){
+    if (mouseX >= 330 && mouseX <= 510 && mouseY >= 560 && mouseY <= 615) {
+      resetGame();
+      return;
+    }
+    if (mouseX >= 570 && mouseX <= 750 && mouseY >= 560 && mouseY <= 615) {
+      exit();
+      return;
+    }
+  }  
+  if (mouseX >= 880 && mouseX <= 1040 && mouseY >= 640 && mouseY <= 690){
+    currentScreen = "sushi";
+    return;
+  }
+  if (mouseX >= 700 && mouseX <= 860 && mouseY >= 640 && mouseY <= 690){
+    currentScreen = "order";
+    return;
+  }
 
+  if (currentScreen.equals("sushi")){
   // SALMON BOWL
   if (150 <= mouseX && mouseX < 240 && mouseY >= 140 && mouseY <= 230){
     currentIngredient = "rice";
@@ -154,6 +234,7 @@ void mousePressed(){
     ingredients[count] = currentIngredient;
 
     count++;
+  }
   }
 }
 void mouseDragged(){
