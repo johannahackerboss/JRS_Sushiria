@@ -94,7 +94,7 @@ void drawOrderPaper() {
   text("Fish: " + fishList[Fish], 283, 188);
   text("   x5" + " pcs", 283, 210);
   text("Veggie: " + veggieList[Veggie], 283, 232);
-  text("   x10" + " pcs", 283, 254);
+  text("   x8" + " pcs", 283, 254);
 }
 
 String getOrder() {

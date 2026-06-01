@@ -8,6 +8,7 @@ int swY1 = 300, swY2 = 500;
 int swWidth = 600;
 
 void drawScoreScreen() {
+  cursor();
   background(2, 201, 224);
    drawSides();
 
@@ -150,13 +151,18 @@ void setPlacementScore() {
     ) / 4;
 }
 void setScore() {
+  println("fish = " + fishScore);
+  println("veggie = " + veggieScore);
+  println("rice = " + riceScore);
+  println("correctness = " + correctnessScore);
+  println("time = " + timeScore);
 
   setCorrectnessScore();
   setPlacementScore();
   setTimeScore();
 
   score =
-    int(
+    int( //<>//
       correctnessScore * 0.4 +
       placementScore * 0.4 +
       timeScore * 0.2
