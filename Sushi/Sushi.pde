@@ -231,9 +231,7 @@ void drawButtons() {
 
 void mousePressed(){
 
-  // --------------------------
   // SCREEN BUTTONS
-  // --------------------------
 
   if (mouseX >= 520 && mouseX <= 680 &&
       mouseY >= 640 && mouseY <= 690){
@@ -274,18 +272,14 @@ void mousePressed(){
     return;
   }
 
-  // --------------------------
   // ONLY RUN SUSHI LOGIC
   // ON SUSHI SCREEN
-  // --------------------------
 
   if (!currentScreen.equals("sushi")){
     return;
   }
 
-  // --------------------------
   // YOUR CUTTING MODE
-  // --------------------------
 
   if (gameState.equals("rolled")){
     return;
@@ -320,9 +314,7 @@ void mousePressed(){
     return;
   }
 
-  // --------------------------
   // INGREDIENT SELECTION
-  // --------------------------
 
   if (150 <= mouseX &&
       mouseX < 240 &&
